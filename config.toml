@@ -141,20 +141,24 @@ uglyURLs = false
 [mediaTypes."application/atom+xml"]
     suffixes = ["xml"]
 
-# Custom Atom template of MemE
 [outputFormats.SectionsAtom]
-    mediaType = "application/atom+xml"
-    baseName = "atom"
+mediaType = "application/atom+xml"
+baseName = "atom"
+isPlainText = true
+notAlternative = false
+permalinkable = true
 
-# Custom RSS template of MemE
 [outputFormats.SectionsRSS]
-    mediaType = "application/rss+xml"
-    baseName = "rss"
+mediaType = "application/rss+xml"
+baseName = "rss"
+isPlainText = true
+notAlternative = false
+permalinkable = true
 
 # Hugo's output control
 [outputs]
     page = ["HTML"]
-    home = ["HTML", "SectionsAtom", "SectionsRSS"]
+    home = ["HTML", "rss"]
     section = ["HTML"]
     # Taxonomy
     taxonomyTerm = ["HTML"]
