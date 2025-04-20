@@ -1,165 +1,168 @@
-<head{{ if .Site.Params.openGraph }} prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#"{{ end }}>
-    <meta charset="UTF-8" />
+<head>
+<title>{{.Title}}</title>
 
-    {{ hugo.Generator }}
+{{ $description := .Params.description}}
+{{if .IsHome}}
+  {{ $description = .Site.Params.description}}
+{{end}}
 
-    {{- with .Site.Params.defaultTheme | default "light" -}}
-        {{- if eq . "light" -}}
-            <meta name="theme-color" content="{{ $.Site.Params.themeColor }}" />
-        {{- else -}}
-            <meta name="theme-color" content="{{ $.Site.Params.themeColorDark }}" />
-        {{- end -}}
-    {{- end -}}
-    
-    <!-- Dark Mode -->
-    {{- if .Site.Params.enableDarkMode }}
-        <script>
-            const userPrefers = localStorage.getItem('theme');
-            const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-            const lightModeMediaQuery = window.matchMedia('(prefers-color-scheme: light)');
-            if (userPrefers === 'dark') {
-                changeModeMeta('dark');
-            } else if (userPrefers === 'light') {
-                changeModeMeta('light');
-            } else if (darkModeMediaQuery.matches) {
-                changeModeMeta('dark');
-            } else if (lightModeMediaQuery.matches) {
-                changeModeMeta('light');
-            }
-            function changeModeMeta(theme) {
-                document.documentElement.setAttribute('data-theme', theme);
-                if (theme === 'dark') {
-                    changeThemeColor('{{ .Site.Params.themeColorDark }}');
-                } else {
-                    changeThemeColor('{{ .Site.Params.themeColor }}');
-                }
-            }
-            function changeThemeColor(themeColor) {
-                document.querySelector('meta[name="theme-color"]').setAttribute('content', themeColor);
-            }
-        </script>
-    {{- end }}
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="google-site-verification" content="{{ .Site.Config.Services.GoogleAnalytics.ID }}">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5, user-scalable=5" name="viewport">
+<meta content="telephone=no" name="format-detection">
+<meta name="description" content="{{ $description }}">
+<meta name="renderer" content="webkit">
+<meta name="theme-color" content="#ffffff">
 
-    <!-- Force HTTPS Redirection -->
-    {{- if and .Site.Params.enableForceHTTPS (eq hugo.Environment "production") }}
-        {{ $url := urls.Parse .Site.BaseURL }}
-        {{ $host := $url.Host }}
-        <script>
-            if (window.location.host == "{{ $host | safeJS }}" && window.location.protocol != "https:") {
-                window.location.protocol = "https";
-            }
-        </script>
-    {{- end }}
+<!-- open-graph -->
+{{if .Site.Params.enableOpenGraph}}
+{{ template "_internal/opengraph.html" . }}
+{{end}}
 
-    <!-- Responsive Web Design -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Avoid Automatic Format Detection -->
-    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
-    <!-- Avoid Transcoding -->
-    <meta http-equiv="Cache-Control" content="no-transform" />
-    <!-- Avoid Baidu Mobile Search Transcoding -->
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
+<!-- twitter-cards -->
+{{if .Site.Params.enableTwitterCards}}
+{{ template "_internal/twitter_cards.html" . }}
+{{end}}
 
-    {{ partial "utils/title.html" . }}
-    {{- $title := .Scratch.Get "title" -}}
-    <title>{{ $title }}</title>
+<!-- metadata -->
 
-    <!-- CSS -->
-    {{- partial "style.html" . }}
-
-    <!-- Fonts -->
-    {{- with .Site.Params.fontsLink -}}
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-        <link rel="stylesheet" href="{{ . }}" media="print" onload="this.media='all'" />
-        <noscript><link rel="stylesheet" href="{{ . }}" /></noscript>
-    {{- end }}
-
-    <meta name="author" content="{{ .Params.author | default .Site.Author.name }}" />
-    {{ partial "utils/summary.html" . }}
-    {{- $description := .Description | default (.Scratch.Get "summary") | default .Site.Params.siteDescription | plainify -}}
-    <meta name="description" content="{{ $description }}" />
-
-    <!-- Favicon, Icons, Web App -->
-    {{- $favicon := "favicon.ico" -}}
-    {{- $safariMaskIcon := "icons/safari-pinned-tab.svg" -}}
-    {{- $safariMaskColor := .Site.Params.safariMaskColor -}}
-    {{- $appleTouchIcon := "icons/apple-touch-icon.png" -}}
-    {{- partial "utils/relative-url.html" (dict "Deliver" . "filename" "") -}}
-    {{- $url := .Scratch.Get "url" -}}
-    {{- $msApplicationStartURL := $url -}}
-    {{- $msApplicationTileColor := .Site.Params.msApplicationTileColor -}}
-    {{- partial "utils/relative-url.html" (dict "Deliver" . "filename" "icons/mstile-150x150.png") -}}
-    {{- $url := .Scratch.Get "url" -}}
-    {{- $msApplicationTileImage := $url -}}
-    {{- $manifest := "manifest.json" -}}
-    <link rel="shortcut icon" href="{{ $favicon | relURL }}" type="image/x-icon" />
-    <link rel="mask-icon" href="{{ $safariMaskIcon | relURL }}" color="{{ $safariMaskColor }}" />
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ $appleTouchIcon | relURL }}" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="{{ .Site.Title }}" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="application-name" content="{{ .Site.Title }}" />
-    <meta name="msapplication-starturl" content="{{ $msApplicationStartURL }}" />
-    <meta name="msapplication-TileColor" content="{{ $msApplicationTileColor }}" />
-    <meta name="msapplication-TileImage" content="{{ $msApplicationTileImage }}" />
-    <link rel="manifest" href="{{ $manifest | relURL }}" />
-
-    <!-- Atom / RSS -->
-    {{ with .OutputFormats.Get "SectionsAtom" -}}
-        {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType .Permalink $.Site.Title | safeHTML }}
-    {{ end -}}
-    {{ with .OutputFormats.Get "SectionsRSS" -}}
-        {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType .Permalink $.Site.Title | safeHTML }}
-    {{ end }}
-
-    <!-- SEO -->
-<meta name="google-site-verification" content="GKWWQE1h2XIIBlvWrtGNhmuSUuDwYKxrawGJsfg8Ka4" />
-    {{ if .Params.canonicalUrl }}
-<link rel="canonical" href="{{ .Params.canonicalUrl }}">
-{{ else }}
-<link rel="canonical" href="{{ .Permalink }}">
+{{ if .Site.Config.Services.GoogleAnalytics.ID }}
+{{ template "_internal/google_analytics.html" . }}
 {{ end }}
-    {{- $Deliver := . -}}
-    <!-- JSON-LD -->
-    {{- with .Site.Params.jsonLD -}}
-        {{ partial "utils/json-ld.html" (dict "Deliver" $Deliver "description" $description) }}
-    {{- end }}
 
-    <!-- Twitter Cards -->
-    {{- with .Site.Params.twitterCards -}}
-        {{ partial "utils/twitter-cards.html" (dict "Deliver" $Deliver) }}
-    {{- end }}
-    <!-- Open Graph -->
-    {{- with .Site.Params.openGraph -}}
-        {{ partial "utils/open-graph.html" (dict "Deliver" $Deliver "description" $description) }}
-    {{- end }}
+<!-- https://clarity.microsoft.com for detail -->
+{{ if .Site.Params.Clarity }}
+<script type="text/javascript">
+  (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "{{.Site.Params.Clarity}}");
+</script>
+{{ end }}
 
-    {{- with .Site.Params.googleSiteVerification }}
-        <meta name="google-site-verification" content="{{ . }}" />
-    {{- end }}
+{{if .Site.Params.manifest}}
+<link rel="manifest" href="{{.Site.Params.manifest}}">
+{{end}}
+  
+{{if .Params.canonicalUrl}}
+<link rel="canonical" href="{{.Params.canonicalUrl}}" />
+{{end}}
 
-    {{- if and .Site.Params.enableGoogleAnalytics (eq hugo.Environment "production") }}
-        <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
+<!-- favicon -->
+{{ if .Site.Params.favicon }}
+<link rel="icon" href="{{ .Site.Params.favicon | absURL }}">
+{{ end }}
 
-        {{ partial "third-party/google-analytics.html" . }}
-    {{- end }}
+<!-- For compatibility. View https://github.com/AmazingRise/hugo-theme-diary/pull/135 for details.-->
+{{- $hugoVersion := split (replaceRE ".*([0-9]+)\\.([0-9]+)\\.([0-9]+).*" "$1 $2 $3" hugo.Version) " " -}}
+{{- if and (eq (int (index $hugoVersion 0)) 0) (ge (int (index $hugoVersion 1)) 101) -}}
+    {{- /* no leading slash */ -}}
+    {{ if and (not (.Params.disableToC) ) (.IsPage) }}
+      <script src="{{"js/toc.js" | relURL}}"></script>
+    {{ end }}
+    <link type="text/css" rel="stylesheet" href="{{"vendor/css/bootstrap.min.css" | relURL}}">
+{{- else -}}
+    {{- /* with leading slash */ -}}
+    {{ if and (not (.Params.disableToC) ) (.IsPage) }}
+      <script src="{{"/js/toc.js" | relURL}}"></script>
+    {{ end }}
+    <link type="text/css" rel="stylesheet" href="{{"/vendor/css/bootstrap.min.css" | relURL}}">
+{{- end -}}
 
-    {{- if or .Site.Params.enableGoogleAutoAds .Site.Params.enableGoogleAdUnits }}
-        {{ if eq hugo.Environment "production" }}
-            {{ partial "third-party/google-adsense.html" . }}
-        {{ end }}
-    {{- end }}
+{{ if not .Site.Params.disableDarkmode }}
+{{ $darkmode := resources.Get "scss/dark-mode.scss" | toCSS | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $darkmode.RelPermalink }}" integrity="{{ $darkmode.Data.Integrity }}" media="screen">
+{{ else }}
+{{ $styles := resources.Get "scss/journal.scss" | toCSS | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}" media="screen">
+{{ end }}
 
-    {{- if and .Site.Params.enableGoogleAutoAds (eq hugo.Environment "production") -}}
-        {{ partial "third-party/google-adsense-auto.html" . }}
-    {{- end }}
+<link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Material+Icons">
 
-    {{ partial "matomo-tracking" . }}
-    {{ partial "custom/head.html" . }}
+{{ if .Site.Params.cloudflareToken }}
+<!-- Cloudflare Web Analytics -->
+<script defer
+	src='https://static.cloudflareinsights.com/beacon.min.js'
+	data-cf-beacon='{"token": "{{ .Site.Params.cloudflareToken }}"}'>
+</script>
+<!-- End Cloudflare Web Analytics -->
+{{ end }}
 
-    <script async src="/js/main.js" type="application/javascript"></script>
+{{ if or (.Params.enableLaTeX) (.Site.Params.enableLaTeX) }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          // customised options
+          // • auto-render specific keys, e.g.:
+          delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false},
+              {left: '\\(', right: '\\)', display: false},
+              {left: '\\[', right: '\\]', display: true}
+          ],
+          // • rendering keys, e.g.:
+          throwOnError : false
+        });
+    });
+</script>
+{{ end }}
 
+{{ if and ( and ( .Site.Params.enableGitalk ) ( .IsPage ) ) ( or ( not ( isset .Params "comment" ) ) ( eq .Params.comment true ) ) }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<!-- For compatibility. View https://github.com/AmazingRise/hugo-theme-diary/pull/135 for details.-->
+{{- $hugoVersion := split (replaceRE ".*([0-9]+)\\.([0-9]+)\\.([0-9]+).*" "$1 $2 $3" hugo.Version) " " -}}
+{{- if and (eq (int (index $hugoVersion 0)) 0) (ge (int (index $hugoVersion 1)) 101) -}}
+    {{- /* no leading slash */ -}}
+    <script src="{{"vendor/js/md5.min.js" | relURL}}"></script>
+{{- else -}}
+    {{- /* with leading slash */ -}}
+    <script src="{{"/vendor/js/md5.min.js" | relURL}}"></script>
+{{- end -}}
+<script>
+  var gitalk = new Gitalk({
+  clientID: '{{ .Site.Params.Gitalk.client_id }}',
+  clientSecret: '{{ .Site.Params.Gitalk.client_secret }}',
+  repo: '{{ .Site.Params.Gitalk.repo }}',
+  owner: '{{ .Site.Params.Gitalk.owner }}',
+  admin: ['{{ .Site.Params.Gitalk.owner }}'],
+  id: md5(location.pathname),
+  distractionFreeMode: 'false'
+  });
+  window.onload = function () {
+        gitalk.render('gitalk-container')
+  }
+</script>
+{{ end }}
+
+{{ if and (.Site.Params.livereId) (.IsPage) }}
+<script type="text/javascript">
+</script>
+{{ end }}
+
+{{ if and (.Site.Params.disqusShortname) (.IsPage) }}
+<script src="https://cdn.jsdelivr.net/npm/vue-disqus@3/dist/vue-disqus.js"></script>
+{{ end }}
+
+{{ if and (.Site.Params.enableTwikoo) (.IsPage) }}
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.16/dist/twikoo.all.min.js"></script>
+{{ end }}
+
+{{ if and (.Site.Params.walineServer) (.IsPage) }}
+<script src="https://unpkg.com/@waline/client@v2/dist/waline.js"></script>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/@waline/client@v2/dist/waline.css"
+  />
+{{ end }}
+
+<!-- head custom -->
+{{- partial "extended_head.html" . }}
 
 </head>

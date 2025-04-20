@@ -9,7 +9,7 @@ hasCJKLanguage = false
 copyright = "[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)"
 
 # Name of theme
-theme = ["hugo-notice", "meme", "matomo"]
+theme = ["hugo-notice", "diary", "matomo"]
 
 # `hugo new` automatically opened text editor
 newContentEditor = "typora"
@@ -108,7 +108,7 @@ uglyURLs = false
         endLevel = 6
         ordered = true
 
-# Author’s information
+# Author's information
 [author]
     # Name
     name = "TokenBrice"
@@ -151,7 +151,7 @@ uglyURLs = false
     mediaType = "application/rss+xml"
     baseName = "rss"
 
-# Hugo’s output control
+# Hugo's output control
 [outputs]
     page = ["HTML"]
     home = ["HTML", "SectionsAtom", "SectionsRSS"]
@@ -187,16 +187,16 @@ uglyURLs = false
 # The configuration instructions in the
 # menu are as follows:
 # url           URL
-# name          Text (won’t display if it
+# name          Text (won't display if it
 #               is left empty("") or does
 #               not exist)
 # weight        Position
 # pre           Type of link (internal or
 #               external)
-# post          Icon (won’t display if it
+# post          Icon (won't display if it
 #               is left empty("") or does
 #               not exist)
-# identifier    Icon’s class name
+# identifier    Icon's class name
 #               (there are two speacial
 #               values for header layout
 #               flex: `theme-switcher`,
@@ -391,7 +391,7 @@ uglyURLs = false
     # Note: center or flex
 
     headerFallbackWidth = "32em"
-    # Note: by default, MemE uses main-inner’s
+    # Note: by default, MemE uses main-inner's
     #       width for `headerWidth`, but in
     #       some pages (e.g. homepage layout
     #       poetry, footage), there is no
@@ -404,7 +404,7 @@ uglyURLs = false
     enableNavToggle = true
 
     navHeight = "10em"
-    # Note: menu bar height when it’s
+    # Note: menu bar height when it's
     #       toggled
 
 
@@ -443,7 +443,7 @@ uglyURLs = false
     activeInSection = true
     # Note: if true, the menu item in the
     #       post page will be highlighted
-    #       also if that post’s section is
+    #       also if that post's section is
     #       the `url` of that menu item
 
 
@@ -454,14 +454,14 @@ uglyURLs = false
     # following four different types:
     # 1. poetry    A few lines of verse
     # 2. footage   With fullscreen background videos
-    # 3. posts     List of post’s summary
+    # 3. posts     List of post's summary
     # 4. page      Normal page/post
 
     homeLayout = "posts"
 
     ## Poetry
     # Verse (Markdown supported)
-    # {{< relref path=\"/content/about/_index.md\" >}}
+    # {{< relref path="/content/about/_index.md" >}}
     homePoetry = ["Welcome traveler,<br><br> I hope you'll appreciate your stay in the Ether<br> [— TokenBrice](/about/),<br>Driven by one simple goal: <br> **To shine a light on the Etherial fire.** <br><br> [🌌 DeFi Stories](categories/defi/) <br>[🇫🇷 DeFi France](defifrance) <br>[👾 Do You Even DeFi?](/dyed/)"]
     # Padding of links at the bottom
     # Unit: em
@@ -504,9 +504,9 @@ uglyURLs = false
     # MemE supports category by:
     # 1. sections
     # 2. categories
-    # The sections is based on the site’s
+    # The sections is based on the site's
     # `content` directory structure; the
-    # categories is based on the post’s
+    # categories is based on the post's
     # Front Matter. First of all, category
     # means tree structure (nested, with
     # sub-category). To achieve it, Hexo
@@ -519,7 +519,7 @@ uglyURLs = false
     # to those who come from Hexo. But note
     # that the second method cannot be
     # implemented perfectly in Hugo. I
-    # recommended you adapt to Hugo’s design
+    # recommended you adapt to Hugo's design
     # philosophy if you want to keep the
     # tree organization structure of your
     # posts.
@@ -625,12 +625,12 @@ uglyURLs = false
     #       <!--more--> (with no whitespace)
     #       summary divider to split summary
     #       manually. Or use the `summary`
-    #       variable in post’s Front
+    #       variable in post's Front
     #       Matter to assign it manually.
     #       The priority of them: assign
     #       manually > split manually >
     #       split automatically. Additionally,
-    #       `description` in post’s Front
+    #       `description` in post's Front
     #       Matter has a higher priority
     #       than assign manually in the
     #       custom Atom & RSS template of
@@ -651,7 +651,7 @@ uglyURLs = false
     #       theme toggle is hidden, your
     #       readers may still read your
     #       blog in dark mode if the
-    #       reader’s system is set to dark
+    #       reader's system is set to dark
     #       mode. Similarly, if dark mode
     #       is enabled and is set to the
     #       default theme, your readers
@@ -701,7 +701,7 @@ uglyURLs = false
     autoDetectImages = true
     # Note: It is recommended to enable it.
     #       Otherwise, you must manually
-    #       specify `images` in post’s
+    #       specify `images` in post's
     #       Front Matter or links you
     #       shared on social networks or
     #       APPs will not be able to
@@ -725,7 +725,7 @@ uglyURLs = false
 
     enableKaTeX = false
     # Note: *global settings*
-    #       `katex` in post’s Front Matter
+    #       `katex` in post's Front Matter
     #       has a higher priority than here
 
 
@@ -734,7 +734,7 @@ uglyURLs = false
 
     enableMathJax = false
     # Note: *global settings*
-    #       `mathjax` in post’s Front Matter
+    #       `mathjax` in post's Front Matter
     #       has a higher priority than here
 
     disableMathJaxMenu = false
@@ -745,7 +745,7 @@ uglyURLs = false
 
     enableMermaid = false
     # Note: *global settings*
-    #       `mermaid` in post’s Front Matter
+    #       `mermaid` in post's Front Matter
     #       has a higher priority than here
 
 
@@ -757,7 +757,7 @@ uglyURLs = false
 
     enableComments = false
     # Note: *global settings*
-    #       `comments` in post’s Front Matter
+    #       `comments` in post's Front Matter
     #       has a higher priority than here
 
     ## Disqus
@@ -855,7 +855,7 @@ uglyURLs = false
     #       copyright information of the
     #       post
     #       *global settings*
-    #       `original` in post’s Front Matter
+    #       `original` in post's Front Matter
     #       has a higher priority than here
 
 
@@ -870,7 +870,7 @@ uglyURLs = false
 
     enablePostMeta = true
     # Note: *global settings*
-    #       `meta` in post’s Front Matter
+    #       `meta` in post's Front Matter
     #       has a higher priority than here
 
     enablePostMetaInHome = true
@@ -921,14 +921,14 @@ uglyURLs = false
 
     enableTOC = false
     # Note: *global settings*
-    #       `toc` in post’s Front Matter
+    #       `toc` in post's Front Matter
     #       has a higher priority than here
 
     displayTOCTitle = true
 
     displayTOCNum = true
     # Note: *global settings*
-    #       `tocNum` in post’s Front Matter
+    #       `tocNum` in post's Front Matter
     #       has a higher priority than here
 
     linkHeadingsToTOC = true
@@ -1017,7 +1017,7 @@ uglyURLs = false
     footnoteReturnLinkIcon = "angle-up"
     # Note: will replace
     #       `footnoteReturnLinkContents`
-    #       with icon if it’s not
+    #       with icon if it's not
     #       empty("")
 
     # Insert horizontal rule by yourself?
@@ -1105,13 +1105,13 @@ uglyURLs = false
 
     indentFirstParagraph = false
     # Note: *global settings*
-    #       `indentFirstParagraph` in post’s Front Matter
+    #       `indentFirstParagraph` in post's Front Matter
     #       has a higher priority than here
 
     paragraphStyle = "margin"
     # Note: margin or indent
     #       *global settings*
-    #       `indent` in post’s Front Matter
+    #       `indent` in post's Front Matter
     #       has a higher priority than here
 
     ######################################
@@ -1119,7 +1119,7 @@ uglyURLs = false
 
     enableJustify = false
     # Note: *global settings*
-    #       `align` in post’s Front Matter
+    #       `align` in post's Front Matter
     #       has a higher priority than here
 
     ######################################
@@ -1127,21 +1127,21 @@ uglyURLs = false
 
     enableDropCap = true
     # Note: *global settings*
-    #       `dropCap` in post’s Front Matter
+    #       `dropCap` in post's Front Matter
     #       has a higher priority than here
 
     # Enable drop cap after every
     # horizontal rule tag?
     enableDropCapAfterHr = false
     # Note: *global settings*
-    #       `dropCapAfterHr` in post’s Front Matter
+    #       `dropCapAfterHr` in post's Front Matter
     #       has a higher priority than here
 
     # Delete horizontal rule tag before
     # drop cap?
     deleteHrBeforeDropCap = false
     # Note: *global settings*
-    #       `deleteHrBeforeDropCap` in post’s Front Matter
+    #       `deleteHrBeforeDropCap` in post's Front Matter
     #       has a higher priority than here
 
     ######################################
@@ -1151,7 +1151,7 @@ uglyURLs = false
     # Note: apply to headings & post toc
     #       title only
     #       *global settings*
-    #       `smallCaps` in post’s Front Matter
+    #       `smallCaps` in post's Front Matter
     #       has a higher priority than here
 
     ######################################
@@ -1175,7 +1175,7 @@ uglyURLs = false
 
     displayPostCopyright = true
     # Note: *global settings*
-    #       `displayCopyright` in post’s Front Matter
+    #       `displayCopyright` in post's Front Matter
     #       has a higher priority than here
 
 
@@ -1186,7 +1186,7 @@ uglyURLs = false
 
     displayUpdatedBadge = true
     # Note: *global settings*
-    #       `badge` in post’s Front Matter
+    #       `badge` in post's Front Matter
     #       has a higher priority than here
 
     # Add `title` attribute?
@@ -1201,7 +1201,7 @@ uglyURLs = false
 
     displayPostGitInfo = true
     # Note: *global settings*
-    #       `gitinfo` in post’s Front Matter
+    #       `gitinfo` in post's Front Matter
     #       has a higher priority than here
 
     repoURL = "https://github.com/TokenBrice/blog"
@@ -1229,7 +1229,7 @@ uglyURLs = false
 
     displayPostShare = true
     # Note: *global settings*
-    #       `share` in post’s Front Matter
+    #       `share` in post's Front Matter
     #       has a higher priority than here
 
     displayShareOnText = false
@@ -1253,7 +1253,7 @@ uglyURLs = false
 
     displayRelatedPosts = true
     # Note: *global settings*
-    #       `related` in post’s Front Matter
+    #       `related` in post's Front Matter
     #       has a higher priority than here
 
     relatedPostsNumber = 3
@@ -1327,7 +1327,7 @@ uglyURLs = false
 
     displaySiteCreatedYear = false
 
-    # Leave it empty("") if you don’t want
+    # Leave it empty("") if you don't want
     # the icon
     iconBetweenYearAndAuthor = "heart"
     iconColor = "#f06292"
@@ -1350,7 +1350,7 @@ uglyURLs = false
     # Note: render only in production
     #       environment
     #       Leave it empty("") if you
-    #       don’t need the text or icon
+    #       don't need the text or icon
     #       https://busuanzi.ibruce.info/
 
 
