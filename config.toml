@@ -9,7 +9,7 @@ hasCJKLanguage = false
 copyright = "[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)"
 
 # Name of theme
-theme = ["hugo-notice", "diary", "matomo"]
+theme = ["hugo-notice", "hextra", "matomo"]
 
 # `hugo new` automatically opened text editor
 newContentEditor = "typora"
